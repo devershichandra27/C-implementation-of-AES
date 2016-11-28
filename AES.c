@@ -341,11 +341,11 @@ void inverseByteSubShiftRow(unsigned char * plainText)
 }
 
 
-void AESEncryption(unsigned char * plainText, unsigned char * key, unsigned char * cipher)
+void AESEncryption(unsigned char * plainText, unsigned char * expandedKey, unsigned char * cipher)
 {
     unsigned char * state = malloc(16);
-    unsigned char * expandedKey = malloc(176);
-    expandedKey = keyExpansion(key);
+    //unsigned char * expandedKey = malloc(176);
+    //expandedKey = keyExpansion(Key);
     //key addition for the first round
     for (int i = 0; i < 16; ++i)
     {
@@ -374,14 +374,11 @@ void AESEncryption(unsigned char * plainText, unsigned char * key, unsigned char
         cipher[i] = state[i] ^ expandedKey[i+160];
     }
     free(state);
-    free(expandedKey);
 }
 
-void AESDecryption(unsigned char * cipher, unsigned char * key, unsigned char * plainText)
+void AESDecryption(unsigned char * cipher, unsigned char * expandedKey, unsigned char * plainText)
 {
     unsigned char * state = malloc(16);
-    unsigned char * expandedKey = keyExpansion(key);
-
     //key whitening
     for (int i = 0; i < 16; ++i)
         state[i] = cipher[i] ^ expandedKey[160+i];
@@ -407,22 +404,22 @@ void AESDecryption(unsigned char * cipher, unsigned char * key, unsigned char * 
         plainText[i] = state[i] ^ expandedKey[i];
 
     free(state);
-    free(expandedKey);
 }
 
 int main(int argc, char const *argv[])
 {
     unsigned char plainText[] = "This is a text a";
     unsigned char key[] = "This is a test a";
+    unsigned char * expandedKey = keyExpansion(key);
     unsigned char * cipher = malloc(16);
-    AESEncryption(plainText, key, cipher);
+    AESEncryption(plainText, expandedKey, cipher);
     for (int i = 0; i < 16; ++i)
     {
         printf("%02X ", cipher[i] );
     }printf("\n");
 
     unsigned char * outPut = malloc(16);
-    AESDecryption(cipher, key, outPut);
+    AESDecryption(cipher, expandedKey, outPut);
     for (int i = 0; i < 16; ++i)
     {
         printf("%c", outPut[i] );
