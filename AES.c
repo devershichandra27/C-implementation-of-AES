@@ -406,21 +406,38 @@ void AESDecryption(unsigned char * cipher, unsigned char * expandedKey, unsigned
     free(state);
 }
 
-int main(int argc, char const *argv[])
+nt main(int argc, char const *argv[])
 {
-    unsigned char plainText[] = "This is a text a";
+    char ch; 
+    int i;
+    unsigned char plainText[16];
     unsigned char key[] = "This is a test a";
     unsigned char * expandedKey = keyExpansion(key);
     unsigned char * cipher = malloc(16);
+    FILE *fp;
+    FILE *fp1;
+    fp1=fopen("cipher.txt", "r+");
+    fp = fopen("plain.txt", "r+");
+    fputs("This is the text we are using for our algorithm as a plain text this will be encrypted to a cipher text soon enough", fp);
+    do
+    {
+    for(i=0;i<16;i++)
+    {
+        ch = fgetc(fp1);  // copying file character by character
+        plainText[i]=ch;
+    }
     AESEncryption(plainText, expandedKey, cipher);
-    for (int i = 0; i < 16; ++i)
+    fputs(cipher,fp1);
+    }
+    while(ch!=EOF);
+    for (i = 0; i < 16; ++i)
     {
         printf("%02X ", cipher[i] );
     }printf("\n");
 
     unsigned char * outPut = malloc(16);
     AESDecryption(cipher, expandedKey, outPut);
-    for (int i = 0; i < 16; ++i)
+    for (i = 0; i < 16; ++i)
     {
         printf("%c", outPut[i] );
     }printf("\n");
