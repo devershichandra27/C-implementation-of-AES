@@ -405,25 +405,3 @@ void AESDecryption(unsigned char * cipher, unsigned char * expandedKey, unsigned
 
     free(state);
 }
-
-int main(int argc, char const *argv[])
-{
-    unsigned char plainText[] = "This is a text a";
-    unsigned char key[] = "This is a test a";
-    unsigned char * expandedKey = keyExpansion(key);
-    unsigned char * cipher = malloc(16);
-    AESEncryption(plainText, expandedKey, cipher);
-    for (int i = 0; i < 16; ++i)
-    {
-        printf("%02X ", cipher[i] );
-    }printf("\n");
-
-    unsigned char * outPut = malloc(16);
-    AESDecryption(cipher, expandedKey, outPut);
-    for (int i = 0; i < 16; ++i)
-    {
-        printf("%c", outPut[i] );
-    }printf("\n");
-
-    return 0;
-}
