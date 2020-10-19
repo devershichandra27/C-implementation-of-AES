@@ -1,4 +1,4 @@
-#C program for AES
+# C program for AES
 
 I've tried to code a simplest implementation of Advanced Encryption Algorithm using C language.
 Currently the program takes a hardcoded 16 byte plaintext and key, and encrypts them.
