@@ -7,4 +7,6 @@ It's 5:00 in the morning and I've just finished debugging this program (successf
 
 Suggestions for the same are always welcome. :-)
 
+The users are supposed to call the AES_Encryption function and AES_Decryption methods to perform encryption and decryption respecitvely. 
+
 Happy Coding!
